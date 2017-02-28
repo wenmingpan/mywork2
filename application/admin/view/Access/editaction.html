@@ -1,0 +1,32 @@
+<div class="pageContent">
+	<form method="post" action="/admin/access/edit" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent" layoutH="56">
+			<p>
+				<label>权限名 称：</label>
+				<input name="title" type="text" size="30" value="{$access.title}" class="required" alt="请输入名称"/>
+			</p>	
+			<p>
+				<label>状 态：</label>
+				<input name="status"  type="radio" size="30" value="1" 
+					  {if condition="$access.status eq 1"}checked{/if}/>开启
+				<input name="status"  type="radio" size="30" value="0" 
+				{if condition="$access.status eq 0"}checked{/if}/>禁用
+			</p>
+			<p>
+				<label>Urls：</label>
+				<textarea name="urls" cols="30" rows="3">{:implode("\\r\\n", json_decode($access['urls'],true))}</textarea>
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<input type="hidden" name="pid" value="{$access.pid}">
+				<input type="hidden" name="id" value="{$access.id}">
+				<!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>-->
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,133 @@
+<style type="text/css">
+.edit {
+	float:right;
+	display:none;
+}
+.edit span {
+	float:right;
+	padding-left:3px;
+}
+#zzjg_list_edit {
+	border:1px solid #b8d0d6;
+	background-color:#efefef;
+	padding:5px 10px;
+	margin-top:10px;
+	margin-left:480px;
+	width:250px;
+    min-height:390px;
+	z-index:999;
+}
+</style>
+
+<div class="panelBar">
+	<ul class="toolBar">
+		<li class=""><a class="icon" href="javascript:;"><span>组织架构管理</span></a></li>
+	</ul>
+</div>
+
+<div style="float:left; display:block; margin:10px; overflow:auto; width:460px; height:400px; border:solid 1px #CCC; line-height:21px; background:#FFF;">
+<p>组织架构编辑</p>
+	<ul class="tree treeFolder">
+	<{foreach from=$tree item=iv name=smallcall}>
+	<li><a><{$iv.name}> <span class="edit"><span onclick="edit_zz('<{$iv.id}>','<{$iv.name}>');">编辑</span> <span onclick="del_zz('<{$iv.id}>','<{$iv.name}>');">删除</span> <span onclick="add_zz('<{$iv.id}>','<{$iv.name}>');">增加子级</span> <span onclick="add_zz('0','一级');">增加同级</span></span></a>
+		<{if $iv.child}>
+		<ul>
+		<{foreach from=$iv.child item=child_1 name=child_1}>
+		<li><a><{$child_1.name}><span class="edit"><span onclick="edit_zz('<{$child_1.id}>','<{$child_1.name}>');">编辑</span> <span onclick="del_zz('<{$child_1.id}>','<{$child_1.name}>');">删除</span> <span onclick="add_zz('<{$child_1.id}>','<{$child_1.name}>');">增加子级</span> <span onclick="add_zz('<{$iv.id}>','<{$iv.name}>');">增加同级</span></span></a>
+			<{if $child_1.child}>
+			<ul>
+			<{foreach from=$child_1.child item=child_2 name=child_2}>
+			<li><a><{$child_2.name}><span class="edit"><span onclick="edit_zz('<{$child_2.id}>','<{$child_2.name}>');">编辑</span> <span onclick="del_zz('<{$child_2.id}>','<{$child_2.name}>');">删除</span> <span onclick="add_zz('<{$child_2.id}>','<{$child_2.name}>');">增加子级</span> <span onclick="add_zz('<{$child_1.id}>','<{$child_1.name}>');">增加同级</span></span></a>
+				<{if $child_2.child}>
+				<ul>
+				<{foreach from=$child_2.child item=child_3 name=child_3}>
+				<li><a><{$child_3.name}><span class="edit"><span onclick="edit_zz('<{$child_3.id}>','<{$child_3.name}>');">编辑</span> <span onclick="del_zz('<{$child_3.id}>','<{$child_3.name}>');">删除</span> <span onclick="add_zz('<{$child_3.id}>','<{$child_3.name}>');">增加子级</span> <span onclick="add_zz('<{$child_2.id}>','<{$child_2.name}>');">增加同级</span></span></a>
+					<{if $child_3.child}>
+					<ul>
+					<{foreach from=$child_3.child item=child_4 name=child_4}>
+					<li><a><{$child_4.name}><span class="edit"><span onclick="edit_zz('<{$child_4.id}>','<{$child_4.name}>');">编辑</span> <span onclick="del_zz('<{$child_4.id}>','<{$child_4.name}>');">删除</span> <span onclick="add_zz('<{$child_4.id}>','<{$child_4.name}>');">增加子级</span> <span onclick="add_zz('<{$child_3.id}>','<{$child_3.name}>');">增加同级</span></span></a></li>
+					<{/foreach}>
+					</ul>
+					<{/if}>
+				</li>
+				<{/foreach}>
+				</ul>
+				<{/if}>
+			</li>
+			<{/foreach}>
+			</ul>
+			<{/if}>
+		</li>
+		<{/foreach}>
+		</ul>
+		<{/if}>
+	</li>
+	<{/foreach}>
+	<li><a>离职员工</a></li>
+	</ul>
+</div>
+
+<div id="zzjg_list_edit" style="display:none"></div>
+
+<div id="zzjg_list_add" style="display:none">
+	<div>添加子部门</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(".tree li").hover(function(){
+		$(".tree li .edit").hide();
+		$(this).find(".edit:first").show();
+	},function(){
+		$(".tree li .edit").hide();
+	})
+});
+
+function close_zz(id)
+{
+	$('#'+id).hide();
+}
+
+function edit_zz(id, name)
+{
+	$("#zzjg_list_edit").html("<div style='height:30px;line-height:30px;font-weight:bold;'>编辑部门</div>"+
+"<form id=\"pagerForm\" onsubmit=\"return navTabSearch(this);\" method=\"post\" action=\"/admin/zzjgedit\">"+
+"<input type=\"hidden\" name=\"id\" value=\""+id+"\" />"+
+"<input type=\"hidden\" name=\"ac\" value=\"edit\" />"+
+"<div>部门名：<input type=\"text\" name=\"name\" value=\""+name+"\" /></div>"+
+"<div><input style='margin-top:10px;' type=\"submit\" name=\"submit\" value=\"确定\" />"+
+"<input style='margin-left:10px;' type=\"button\" name=\"close\" onclick=\"close_zz('zzjg_list_edit');\" value=\"关闭\" /></div>"+
+"</form>");
+	$("#zzjg_list_edit").show();
+}
+
+function add_zz(id, name)
+{
+	$("#zzjg_list_edit").html("<div style='height:30px;line-height:30px;font-weight:bold;'>添加("+name+")下级部门</div>"+
+"<form id=\"pagerForm\" onsubmit=\"return navTabSearch(this);\" method=\"post\" action=\"/admin/zzjgedit\">"+
+"<input type=\"hidden\" name=\"id\" value=\""+id+"\" />"+
+"<input type=\"hidden\" name=\"ac\" value=\"add\" />"+
+"<div>部门名：<input type=\"text\" name=\"name\" value=\"\" /></div>"+
+"<div><input style='margin-top:10px;' type=\"submit\" name=\"submit\" value=\"确定\" />"+
+"<input style='margin-left:10px;' type=\"button\" name=\"close\" onclick=\"close_zz('zzjg_list_edit');\" value=\"关闭\" /></div>"+
+"</form>");
+	$("#zzjg_list_edit").show();
+}
+
+function del_zz(id, name)
+{
+	var r = confirm("确认删除 "+name);
+	if (r == false) {
+		return;
+	}
+	var res = $.ajax({url:'/admin/zzjgedit/?ac=del&id='+id,async:false});
+	if (res.responseText == 0) {
+		alert('成功删除');
+	} else {
+		alert(res.responseText);
+	}
+	//navTab.openTab('zzjgedit','/admin/zzjgedit/',{title:'组织架构编辑',fresh:true,data:{}});
+	navTab.reloadFlag('zzjgedit');
+	//navTabPageBreak();
+}
+</script>
+

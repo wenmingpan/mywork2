@@ -1,0 +1,48 @@
+<h2 class="contentTitle">配置权限</h2>
+
+
+
+<div style=" float:left; display:block; margin:10px; overflow:auto; width:300px; height:300px; overflow:auto; border:solid 1px #CCC; line-height:21px; background:#FFF;">
+<p></p>
+<form method="post" action="admin/role/addaccess" class="pageForm required-validate" onsubmit="return validateCallback(this)">
+<div id="resultBox"></div>
+<ul class="tree treeFolder treeCheck expand" oncheck="kkk">
+        {foreach $list as $vo}
+	<li><a >{$vo.title}</a>
+		<ul>
+                    {foreach $vo['child'] as $v}
+			<li><a tname="name" tvalue="{$v.id}" {in name="v.id" value="$user_access_id"}checked{/in}>{$v.title}</a></li>
+                    {/foreach}
+		</ul>
+	</li>
+        {/foreach}
+        
+</ul>
+
+<input type="hidden" name="role_id" value="{$role_id}"/>
+<input type="submit" value="Submit"/>
+</form>
+</div>
+
+
+<script type="text/javascript">
+function kkk(){
+	var json = arguments[0], result="";
+//	alert(json.checked);
+           console.log(json);
+	$(json.items).each(function(i){
+//            alert(i);
+            alert(this.value);
+		// result += "<p>name:"+this.name + " value:"+this.value+" text: "+this.text+"</p>";
+                $("#resultBox > input[value="+this.value+"]").remove();
+                alert("input[name=checkbox value="+this.value+"]");
+		result += "<input type=checkbox name=access_id[] value="+this.value+" checked />";
+                
+//                $("#resultBox").html(result);
+//$("#resultBox").append(result);
+                
+	});
+	$("#resultBox").append(result);
+	
+}
+</script>

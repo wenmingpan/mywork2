@@ -1,0 +1,25 @@
+<div class="pageContent">
+	<form method="post" action="/admin/access/doadd" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent" layoutH="56">
+			<p>
+				<label>权限名 称：</label>
+				<input name="title" type="text" size="30" value="" class="required" alt="请输入名称"/>
+			</p>
+			<p>
+				<label>状 态：</label>
+				<input name="status"  type="radio" size="30" value="1" checked/>开启
+				<input name="status"  type="radio" size="30" value="0" />禁用
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<input type="hidden" name="pid" value="0">
+				<!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>-->
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>
